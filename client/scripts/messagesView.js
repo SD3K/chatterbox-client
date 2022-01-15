@@ -11,16 +11,26 @@ var MessagesView = {
   },
 
   render: function() {
-    // TODO: Render _all_ the messages.
+    let html = '';
+    for (let messageData in Messages._data) {
+      html += MessageView.render(Messages._data[messageData]);
+    }
+    $('#chats').append(html);
   },
 
   renderMessage: function(message) {
-    // TODO: Render a single message.
+    let html = '';
+    html += MessageView.render(message);
+    $('#chats').append(html);
   },
 
   handleClick: function(event) {
     // TODO: handle a user clicking on a message
     // (this should add the sender to the user's friend list).
+    $('#chats username').click(event, function() {
+      let username = $(this).text();
+      Friends.toggleStatus(username);
+    });
   }
 
 };

@@ -13,10 +13,20 @@ var RoomsView = {
 
   render: function() {
     // TODO: Render out the list of rooms.
+    let html = '';
+    for (let messageData in Rooms._data) {
+      html += _.template('<option value="<%= roomname %>">' + '<%= roomname %>' + '</option>');
+    }
+    $('#rooms select').append(html);
   },
 
   renderRoom: function(roomname) {
     // TODO: Render out a single room.
+    let roomData = {roomname: roomname};
+    let rendered = _.template('<option value="<%= roomname %>">' + '<%= roomname %>' + '</option>');
+    let html = '';
+    html += rendered(roomData);
+    $('#rooms select').append(html);
   },
 
   handleChange: function(event) {
