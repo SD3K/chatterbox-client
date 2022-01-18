@@ -7,34 +7,36 @@ var RoomsView = {
   $select: $('#rooms select'),
 
   initialize: function() {
-    // TODO: Perform any work which needs to be done
-    // when this view loads.
+    RoomsView.$select.on('change', RoomsView.handleChange);
+    RoomsView.$button.on('click', RoomsView.handleClick);
   },
 
   render: function() {
-    // TODO: Render out the list of rooms.
-    let html = '';
-    for (let messageData in Rooms._data) {
-      html += _.template('<option value="<%= roomname %>">' + '<%= roomname %>' + '</option>');
-    }
-    $('#rooms select').append(html);
+    RoomsView.$select.html('');
+    Rooms
+      .items()
+      .each(RoomsView.renderRoom);
+    RoomsView.$select.val(Rooms.selected);
   },
 
   renderRoom: function(roomname) {
-    // TODO: Render out a single room.
-    let roomData = {roomname: roomname};
-    let rendered = _.template('<option value="<%= roomname %>">' + '<%= roomname %>' + '</option>');
-    let html = '';
-    html += rendered(roomData);
-    $('#rooms select').append(html);
+    var $option = $('<option>').val(roomname).text(roomname);
+    RoomsView.$select.append($option);
   },
 
   handleChange: function(event) {
-    // TODO: Handle a user selecting a different room.
+    Rooms.selected = RoomsView.$select.val();
+    MessagesView.render();
   },
 
   handleClick: function(event) {
-    // TODO: Handle the user clicking the "Add Room" button.
+    var roomname = prompt('Enter room name');
+    if (roomname) {
+      Rooms.add(roomname, () => {
+        RoomsView.render();
+        MessagesView.render();
+      });
+    }
   }
 
 };

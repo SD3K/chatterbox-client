@@ -19,18 +19,19 @@ var App = {
     App.startSpinner();
     App.fetch(App.stopSpinner);
 
-    setInterval(app.fetch, 5000);
+    setInterval(App.fetch, 5000);
   },
 
-  fetch: function(callback = ()=>{}) {
-    Parse.readAll(({results}) => {
+  fetch: function(callback = () => {} ) {
+    Parse.readAll((data) => {
       // examine the response from the server request:
-      console.log(results);
+      if (data && data.length) {
+        Rooms.update(data, Roomsview.render);
+        Messages.update(data, MessagesView.render);
 
-      Messages.update(results, MessagesView.render);
-      Rooms.update(results, Roomsview.render);
-
-      callback();
+        callback();
+      }
+      return;
     });
   },
 

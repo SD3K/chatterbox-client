@@ -7,7 +7,6 @@ var Parse = {
   server: `https://app-hrsei-api.herokuapp.com/api/chatterbox/messages/${window.CAMPUS}`,
 
   create: function(message, successCB, errorCB = null) {
-    // TODO: send a request to the Parse API to save the message
     $.ajax({
       url: Parse.server,
       type: 'POST',
@@ -15,7 +14,7 @@ var Parse = {
       contentType: 'application/json',
       success: successCB,
       error: errorCB || function(error) {
-        console.error('chatterbox: Failed to send message', error);
+        console.error('chatterbox: Failed to create message', error);
       }
     });
   },
